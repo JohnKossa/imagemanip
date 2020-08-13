@@ -8,8 +8,8 @@ Currently the only algorithm is a "cartoonify" algorithm that flattens regions o
 
 It accepts 2 parameters which can be specified from the command line
 
-1. pct - This is the "sensitivity" of the algorithm. This property tells the algorithm what percentage of the lowest volatility regions to throw away after each pass.
-2. passes -  The algorithm always does one pass by subdividing the image into a grid. This parameter sets the number of times the algorithm will sweep the image with its convolution matrix.
+1. pct - This is the "sensitivity" of the algorithm. This property tells the algorithm what percentage of the lowest volatility regions to "flatten" after each pass. I've found somehwere from .5 to .85 to be good choices for this.
+2. passes -  The algorithm always does one pass by subdividing the image into a grid. This parameter sets the number of times the algorithm will sweep the image with its convolution matrix. I've found 25 to 100 to be good choices for this.
 
 ## Build
 
