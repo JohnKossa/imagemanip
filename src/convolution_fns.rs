@@ -11,6 +11,8 @@ pub struct VolatilityGrid{
     pub volatility: f64,
 }
 
+unsafe impl Send for VolatilityGrid {}
+
 pub fn get_volatility_2x2(img: &mut Image, x: u32, y: u32) -> VolatilityGrid{
     /*let p1 = img.get_pixel(x, y);
     let p2 = img.get_pixel(x+1, y);

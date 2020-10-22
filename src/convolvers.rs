@@ -78,7 +78,7 @@ pub fn readonly_convolve_size_x<T>(func: fn(&Image, u32, u32) -> T, size: u32, i
     ret_val
 }
 
-pub fn readonly_convolve_size_x_multi<T>(func: fn(&Image, u32, u32) -> T, size: u32, img: &Image) -> Vec<T>{
+pub fn readonly_convolve_size_x_multi<T: 'static + Send>(func: fn(&Image, u32, u32) -> T, size: u32, img: &'static Image) -> Vec<T>{
     let img_width = img.get_width();
     let img_height = img.get_height();
     let thread_count_target = 4;
