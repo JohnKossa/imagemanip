@@ -1,7 +1,7 @@
 extern crate bmp;
 extern crate num_cpus;
 use bmp::Image;
-use std::thread;
+use rayon::prelude::*;
 
 pub fn do_on_2x2_grid<T>(func: fn(&mut Image, u32, u32) -> T, img: &mut Image) -> Vec<T>{
     sub_grid_size_x(func, 2, img)
@@ -78,30 +78,19 @@ pub fn readonly_convolve_size_x<T>(func: fn(&Image, u32, u32) -> T, size: u32, i
     ret_val
 }
 
-pub fn readonly_convolve_size_x_multi<T: 'static + Send>(func: fn(&Image, u32, u32) -> T, size: u32, img: &'static Image) -> Vec<T>{
+pub fn readonly_convolve_size_x_multi<T: Send>(func: fn(&Image, u32, u32) -> T, size: u32, img: &Image) -> Vec<T>{
     let img_width = img.get_width();
     let img_height = img.get_height();
-    let thread_count_target = 4;
-    //let thread_count_target = num_cpus::get()
     let mut ret_val: Vec<T> = Vec::new();
-    let mut children = vec![];
-    let range = (img_width-(size-1))/thread_count_target;
-    for i in 0..thread_count_target {
-        // Spin up another thread
-        children.push(thread::spawn(move || {
-            let mut thread_ret: Vec<T> = Vec::new();
-            let start = i*range;
-            for x in start..(start+range){
-                for y in 0..(img_height-(size-1)){
-                    thread_ret.push(func(img, x, y));
-                }
-            }
-            thread_ret
-        }));
+    let mut coords: Vec<(u32,u32)> = Vec::new();
+    for x in 0..(img_width-(size-1)){
+        for y in 0..(img_height-(size-1)){
+            coords.push((x,y));
+        }
     }
-    for child in children {
-        // Wait for the thread to finish. Returns a result.
-        ret_val.append(&mut child.join().unwrap());
-    }
+    coords.into_par_iter().map(|pair: (u32, u32)| -> T {
+        let (x,y) = pair;
+        func(img, x, y)
+    }).collect_into_vec(&mut ret_val);
     ret_val
 }

@@ -5,7 +5,7 @@ pub fn process_bmp(func: fn(&mut Image, &HashMap<String, String>), img: &mut Ima
     func(img,settings)
 }
 
-pub fn process_gif(func: fn(&mut Image, &HashMap<String, String>), gif_frames: Vec<Image>, settings: &HashMap<String, String>){
+pub fn process_gif(func: fn(&mut Image, &HashMap<String, String>), gif_frames: &mut Vec<Image>, settings: &HashMap<String, String>){
     //for each gif frame, invoke func on it
     //reassemble the gif, with timings, etc
     //call write?

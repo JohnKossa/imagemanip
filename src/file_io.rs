@@ -25,13 +25,13 @@ pub fn read_gif_from_file(path: &str) -> Vec<Image> {
     let mut output = Vec::new();
     while let Some(frame) = decoder.read_next_frame().unwrap(){
         //process the frame
-        let mut toAdd = Image::new(frame.width.into(), frame.height.into());
+        let mut to_add = Image::new(frame.width.into(), frame.height.into());
         let buffer = &frame.buffer;
-        for (x, y) in toAdd.coordinates(){
-            let currentPixelBytes = buffer[(x*y+x) as usize];
-            toAdd.set_pixel(x, y, Pixel::new(currentPixelBytes & 0b11000000 >>6,currentPixelBytes & 0b00110000 >>4,currentPixelBytes & 0b00001100 >>2));
+        for (x, y) in to_add.coordinates(){
+            let current_pixel_bytes = buffer[(x*y+x) as usize];
+            to_add.set_pixel(x, y, Pixel::new(current_pixel_bytes & 0b11000000 >>6,current_pixel_bytes & 0b00110000 >>4,current_pixel_bytes & 0b00001100 >>2));
         }
-        output.push(toAdd);
+        output.push(to_add);
     }
     output
 }
