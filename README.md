@@ -13,11 +13,11 @@ It accepts 2 parameters which can be specified from the command line
 
 ## Build
 
-cargo build
+```cargo build```
 
 ## Sample command
 
-./target/debug/imagemanip in=/path/to/input/image.bmp out=/path/to/output/image.bmp passes=20 pct=.85
+```./target/debug/imagemanip in=/path/to/input/image.bmp out=/path/to/output/image.bmp passes=20 pct=.85```
 
 ## Roadmap
 
