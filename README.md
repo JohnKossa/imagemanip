@@ -22,12 +22,13 @@ cargo build
 ## Roadmap
 
 1. Support for gif, especially animated gifs
-2. Select algorithms via CLI param
-3. Get cartoonify_v1 working as intended
-3. Readonly and rayon-boosted cartoonify_v1
-4. Deterministic default file names for output path placed in same directory if not specified by user.
-5. Support for jpeg
-6. "Outlining" algorithm for drawing black borders around large color regions in an already "cartoonified" image
-7. Support for non-matching input and output file extensions
-8. Support for png
-9. Support for some form of short video (mp4? AVI? mpeg?)
+2. Multithread boost to parallelize processing of gif frames
+3. Select algorithms via CLI param
+4. Get cartoonify_v1 working as intended
+5. Readonly and thread-optimized cartoonify_v1
+6. Deterministic default file names for output path placed in same directory if not specified by user.
+7. Support for jpeg
+8. "Outlining" algorithm for drawing black borders around large color regions in an already "cartoonified" image
+9. Support for non-matching input and output file extensions
+10. Support for png
+11. Support for some form of short video (mp4? AVI? mpeg?)
