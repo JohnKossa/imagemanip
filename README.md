@@ -23,9 +23,9 @@ It accepts 2 parameters which can be specified from the command line
 
 1. Support for gif, especially animated gifs
 2. Multithread boost to parallelize processing of gif frames
-3. Select algorithms via CLI param
-4. Get cartoonify_v1 working as intended
-5. Readonly and thread-optimized cartoonify_v1
+3. ~~Select algorithms via CLI param~~
+4. ~~Get cartoonify_v1 working as intended~~
+5. ~~Readonly and thread-optimized cartoonify_v1~~
 6. Deterministic default file names for output path placed in same directory if not specified by user.
 7. Support for jpeg
 8. "Outlining" algorithm for drawing black borders around large color regions in an already "cartoonified" image

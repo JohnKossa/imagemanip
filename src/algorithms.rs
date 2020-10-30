@@ -33,7 +33,7 @@ pub fn cartoonify_v0(img: &mut Image, settings: &HashMap<String, String>){
         Some(result) => result.parse::<f64>().unwrap(),
         None         => 0.85
     };
-    let mut volatilities: Vec<convolution_fns::VolatilityGrid> = convolvers::readonly_sub_grid_size_x_with_offset(convolution_fns::readonly_get_volatility_2x2, 2, 0, 0, img); //in 2x2 grid, collect volatilities
+    let mut volatilities: Vec<convolution_fns::VolatilityGrid> = convolvers::readonly_sub_grid_size_x_with_offset_multi(convolution_fns::readonly_get_volatility_2x2, 2, 0, 0, img); //in 2x2 grid, collect volatilities
     volatilities.sort_by(volatility_compare); //sort by volatility
     volatilities = volatilities.into_iter().filter(|v| v.volatility > 0.0).collect();//drop all volatilities of 0
     let mut cutoff_idx = (volatilities.len() as f64 * cutoff_pct) as i32;
@@ -60,19 +60,21 @@ pub fn cartoonify_v1(img: &mut Image, settings: &HashMap<String, String>){
         Some(result) => result.parse::<f64>().unwrap(),
         None         => 0.85
     };
-    let mut volatilities: Vec<convolution_fns::VolatilityGrid> = convolvers::sub_grid_size_x_with_offset(convolution_fns::get_volatility_2x2, 2, 0, 0, img); //in 2x2 grid, collect volatilities
+    let mut volatilities: Vec<convolution_fns::VolatilityGrid> = convolvers::readonly_sub_grid_size_x_with_offset_multi(convolution_fns::readonly_get_volatility_2x2, 2, 0, 0, img); //in 2x2 grid, collect volatilities
     volatilities.sort_by(volatility_compare); //sort by volatility
     volatilities = volatilities.into_iter().filter(|v| v.volatility > 0.0).collect();//drop all volatilities of 0
     let mut cutoff_idx = (volatilities.len() as f64 * cutoff_pct) as i32;
     for i in 0..cutoff_idx {
         flatten_2x2(img, volatilities[i as usize].x, volatilities[i as usize].y, volatilities[i as usize].avg); //set all pixels in that grid to the average
     }
-    for _ in 0..passes {
-        //volatilities = convolvers::sub_grid_size_x_with_offset(convolution_fns::get_volatility_2x2, 2, offsets[(n%4) as usize][0], offsets[(n%4) as usize][1], img);
-        volatilities = convolvers::sub_grid_size_x_with_offset(convolution_fns::get_volatility_2x2, 2, 0, 0, img);
-        volatilities.append(&mut convolvers::sub_grid_size_x_with_offset(convolution_fns::get_volatility_2x2, 2, 0, 1, img));
-        volatilities.append(&mut convolvers::sub_grid_size_x_with_offset(convolution_fns::get_volatility_2x2, 2, 1, 1, img));
-        volatilities.append(&mut convolvers::sub_grid_size_x_with_offset(convolution_fns::get_volatility_2x2, 2, 1, 0, img));
+    for i in 0..passes {
+        volatilities = match i % 4 {
+            0 => convolvers::readonly_sub_grid_size_x_with_offset_multi(convolution_fns::readonly_get_volatility_2x2, 2, 0, 0, img),
+            1 => convolvers::readonly_sub_grid_size_x_with_offset_multi(convolution_fns::readonly_get_volatility_2x2, 2, 0, 1, img),
+            2 => convolvers::readonly_sub_grid_size_x_with_offset_multi(convolution_fns::readonly_get_volatility_2x2, 2, 1, 1, img),
+            3 => convolvers::readonly_sub_grid_size_x_with_offset_multi(convolution_fns::readonly_get_volatility_2x2, 2, 1, 0, img),
+            _ => panic!()
+        };
         volatilities.sort_by(volatility_compare); //sort by volatility
         volatilities = volatilities.into_iter().filter(|v| v.volatility > 0.0).collect();//drop all volatilities of 0
         cutoff_idx = (volatilities.len() as f64 * cutoff_pct) as i32;
