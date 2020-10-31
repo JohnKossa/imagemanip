@@ -1,20 +1,17 @@
-extern crate bmp;
-extern crate num_cpus;
 use bmp::{Image, Pixel};
 use std::cmp::Ordering;
 use std::collections::HashMap;
-#[path="convolvers.rs"]
+
 mod convolvers;
-#[path="convolution_fns.rs"]
 mod convolution_fns;
 
 fn volatility_compare(v1: &convolution_fns::VolatilityGrid, v2: &convolution_fns::VolatilityGrid) -> Ordering{
-    if v1.volatility < v2.volatility {
-        return Ordering::Less
-    } else if v1.volatility > v2.volatility {
-        return Ordering::Greater
+    match v1.volatility.partial_cmp(&v2.volatility) {
+        Some(ordering) => ordering,
+        None => {
+            v1.volatility.to_bits().cmp(&v2.volatility.to_bits())
+        }
     }
-    return Ordering::Equal
 }
 
 fn flatten_2x2(img: &mut Image, x: u32, y: u32, color: Pixel){

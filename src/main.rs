@@ -1,4 +1,3 @@
-extern crate bmp;
 use bmp::Image;
 use std::time::Instant;
 mod algorithms;

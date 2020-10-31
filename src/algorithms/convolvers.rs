@@ -1,5 +1,3 @@
-extern crate bmp;
-extern crate num_cpus;
 use bmp::Image;
 use rayon::prelude::*;
 

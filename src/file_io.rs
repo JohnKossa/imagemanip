@@ -1,5 +1,3 @@
-extern crate bmp;
-extern crate gif;
 use bmp::Image;
 use bmp::Pixel;
 use std::fs::File;
