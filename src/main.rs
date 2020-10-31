@@ -14,6 +14,7 @@ fn main() {
         Some(val) => match val.as_str() {
             "v0" => algorithms::cartoonify_v0,
             "v1" => algorithms::cartoonify_v1,
+            "v2" => algorithms::cartoonify_v2,
             _    => panic!("Specified algorithm is not supported")
         },
         None      => algorithms::cartoonify_v0
