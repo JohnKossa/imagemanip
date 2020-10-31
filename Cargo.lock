@@ -100,11 +100,10 @@ dependencies = [
 
 [[package]]
 name = "imagemanip"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "bmp 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "gif 0.11.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "num_cpus 1.13.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "rayon 1.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
